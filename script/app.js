@@ -120,10 +120,10 @@ app.controller('MyCtrl', function($scope,$http,$localStorage){
 		  index2=db[index+1]
 		  //console.log("from db array:" +index2)
 		  index2 = getPrevCitydb.indexOf(index2);
-		  console.log("DB ARRAY:"+db)
-		  console.log("getprev ARRAY:"+getPrevCitydb)
-		  console.log("db index:"+index)
-		  console.log("getprev index:"+index2)
+		  //console.log("DB ARRAY:"+db)
+		  //console.log("getprev ARRAY:"+getPrevCitydb)
+		  //console.log("db index:"+index)
+		  //console.log("getprev index:"+index2)
 		  getPrevCitydb.splice(index2, 2);
 		  db.splice(index,2)
 		  $localStorage.cityDB=getPrevCitydb;
