@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<body>
+
+<div ng-app="myApp" ng-controller="myCtrl">
+
+	
+	
+<item lat="Item-1" lon="Item-2"></item>
+
+</div>
+
+<script>
+var app = angular.module('myApp', []);
+app.controller('myCtrl', function($scope, $http) {
+ 
+ $scope.myFunc=function(lat,lon)
+  {
+	 url="https://maps.googleapis.com/maps/api/timezone/json?location=43.5,-0.13&timestamp="+Math.floor(Date.now() / 1000)+"&sensor=false"
+		$http.get(url).then(
+			function(response) {
+				return response.data.timeZoneId
+			}, function(error) {
+				return "error"
+			});
+  }
+ 
+});
+app.directive("item", function() {
+    return {
+        restrict: 'E',
+        link: function(scope, element, attrs,myCtrl) {
+            scope.lat = attrs.lat;
+			scope.lon = attrs.lon;
+			scope.myFunc(attrs.lat,attrs.lon)
+			
+        },
+		controller: ['$scope', '$http', function($scope, $http) {
+		$scope.myFunc=function(lat,lon)
+		{
+		 url="https://maps.googleapis.com/maps/api/timezone/json?location=43.5,-0.13&timestamp="+Math.floor(Date.now() / 1000)+"&sensor=false"
+			$http.get(url).then(
+				function(response) {
+					$scope.data=response.data.timeZoneId
+			});
+		}
+    }],
+		
+		
+        template: '<h1>{{data}}</h1>'
+    }
+})
+</script>
+
+</body>
+</html>
+

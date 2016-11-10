@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1">
+		
+		<title>Time and Weather App</title>
+
+		<!-- Loading third party fonts -->
+		<link href="http://fonts.googleapis.com/css?family=Roboto:300,400,700|" rel="stylesheet" type="text/css">
+		<link href="fonts/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+		<!-- Loading main css file -->
+		<link rel="stylesheet" href="style.css">
+		<link rel="stylesheet" href="style/autocomplete.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+		<!--[if lt IE 9]>
+		<script src="js/ie-support/html5.js"></script>
+		<script src="js/ie-support/respond.js"></script>
+		<![endif]-->
+		
+		<style>
+		.button {
+			background-color: #4CAF50; 
+			border: none;
+			color: white;
+			padding: 16px 32px;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 16px;
+			margin: 4px 2px;
+			-webkit-transition-duration: 0.4s; /* Safari */
+			transition-duration: 0.4s;
+			cursor: pointer;
+		}
+
+		.button1 {
+			background-color: white;
+			color: black;
+			border: 2px solid #008CBA;
+		}
+
+
+		.button1:hover {
+			background-color: #f44336;
+			color: white;
+			border: 2px solid #f44336;
+		}
+
+
+		</style>
+	</head>
+
+
+	<body>
+	 <div ng-controller="MyCtrl">
+		<div class="site-content">
+			<div class="site-header">
+				<div class="container">
+					<a href="index.html" class="branding">
+						<img src="images/logo.png" alt="" class="logo">
+						<div class="logo-type">
+							<h1 class="site-title">Time and Weather App</h1>
+						</div>
+					</a>
+
+					
+
+				</div>
+			</div> <!-- .site-header -->
+			
+			<div class="hero" data-bg-image="images/banner.png">
+				<div class="container">
+					<form action="#" class="find-location">
+						<autocomplete ng-model="result" attr-placeholder="type to search city..." click-activation="true" data="citys" on-type="doSomething" on-select="doSomethingElse"></autocomplete>
+					</form>
+				
+					
+
+				</div>
+			</div>
+			<div class="forecast-table">
+				<div class="container">
+					<div class="forecast-container">			
+								
+						<div class="today forecast" ng-repeat="x in weather_data">
+							<div class="forecast-header">
+								<item lat="{{x.coord.lat}}" lon="{{x.coord.lon}}"></item>
+							</div> <!-- .forecast-header -->
+							
+							<div class="forecast-content">
+								<div class="location">{{x.name}}</div>
+								<div class="degree">
+									<div class="num">{{x.main.temp| number : 1}}<sup>o</sup>C</div>
+									<div class="forecast-icon">
+										<img src="images/icons/{{x.weather[0].icon}}.svg" alt="" title="{{x.weather[0].description}}" width=70>
+									</div>	
+								</div>
+								<span><img src="images/icon-umberella.png" alt="">{{x.main.humidity}}%</span>
+								<span><img src="images/icon-wind.png" alt="">{{x.wind.speed}}m/s</span>
+								<span><img src="images/icon-compass.png" alt="">{{getWindDirection(x.wind.deg)}}</span>
+								<div style="text-align:center"><button ng-click="delCity(x.name)" class="button button1">Delete City</button></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div> 
+
+			<main class="main-content">
+				<div class="fullwidth-block" data-bg-color="#262936">
+					<div class="container">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="news">
+									<div class="date">NOTE</div>
+									<h3><a href="#">How to use this app </a></h3>
+									<p><ul><ol>From the search field you can search your desired cities around the world at most 5 which you want to view the local time and temperature.</ol><ol>You can also delete your wishlist and add new cities.</ol></ul></p>
+								</div>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+
+			
+			</main> <!-- .main-content -->
+			
+			<div class="site-footer">
+				<div class="container">
+					<div class="row">
+						<p class="colophon">Copyright &copy 2016 <b>Time and Weather App</b> | All rights reserved</p>
+					</div>
+				</div>
+			</div> <!-- .site-footer -->
+		</div>
+	</div>
+		<script src="js/jquery-1.11.1.min.js"></script>
+		<script src="js/plugins.js"></script>
+		<script src="js/app.js"></script>
+		<script type="text/javascript" src="script/autocomplete.js"></script>
+		<script src="https://rawgithub.com/gsklee/ngStorage/master/ngStorage.js"></script>
+		<script type="text/javascript" src="script/app.js"></script>
+	</body>
+
+</html>
