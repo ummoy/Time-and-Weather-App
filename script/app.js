@@ -1,18 +1,9 @@
 var app = angular.module('app', ['autocomplete','ngStorage']);
 app.controller('MyCtrl', function($scope,$http,$localStorage){
 	var db=[];
+	var data=[];
 	$scope.weather_data=getCityWiseData();
 	
-	
-	/*$scope.getdateTimeByZone=function() {
-		url="https://maps.googleapis.com/maps/api/timezone/json?location=43.5,-0.13&timestamp="+Math.floor(Date.now() / 1000)+"&sensor=false"
-		$http.get(url).then(
-			function(response) {
-				$scope.getdateTimeByZone=response.data.timeZoneId
-			}, function(error) {
-				$scope.getdateTimeByZone="error"
-			});
-	}*/
 	/* below scope is used to show autocomple city list */
 	$scope.doSomething = function(typedthings){
     $http({
@@ -81,34 +72,43 @@ app.controller('MyCtrl', function($scope,$http,$localStorage){
 	
   }
   /* below function is used to get weather information from openweathermap api */ 
+  
+  function getDatafromOpnWeather(cityname,countryCode)
+  {
+	  $http({
+				method: 'jsonp',
+				url: 'http://api.openweathermap.org/data/2.5/weather',
+				params: {
+					callback: 'JSON_CALLBACK',
+					q:cityname+','+countryCode,
+					appid:'664dd0f0d8d317ea0b820767585d3b28',
+					units:'Metric'
+				}
+			}).then(function (response) {
+				db.push(response.data.name);
+				db.push(cityname);
+				data.push(response.data)
+				//return response.data
+				
+			});
+  }
+  
   function getCityWiseData()
   {
 	getPrevCitydb=$localStorage.cityDB
 	if(typeof getPrevCitydb != "undefined")
 	{
-		var data=[];
-		//db=[];
+		data=[];
+		db=[];
 		for(i=0,j=1;i<getPrevCitydb.length;i+=2,j+=2)
 		{
 			cityname=getPrevCitydb[i];
+			//db.push(cityname);
 			countryCode=getPrevCitydb[j];
-			$http({
-				method: 'jsonp',
-				url: 'http://api.openweathermap.org/data/2.5/weather',
-				params: {
-					callback: 'JSON_CALLBACK',
-					q:getPrevCitydb[i]+','+getPrevCitydb[j],
-					appid:'664dd0f0d8d317ea0b820767585d3b28',
-					units:'Metric'
-				}
-			}).then(function (response) {
-				data.push(response.data)
-				db.push(response.data.name);
-				db.push(cityname);
-				console.log("initial db:"+db)
-			});
+			getDatafromOpnWeather(cityname,countryCode)
 
 		}
+		//console.log("initial db:"+db)
 		return data;
 	}
   }  
